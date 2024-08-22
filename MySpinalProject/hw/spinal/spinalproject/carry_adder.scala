@@ -1,9 +1,9 @@
-package puja
+package spinalproject
 
 import spinal.core._
 import spinal.core.sim._
 
-
+import scala.util.Random
 
 case class CarryAdder(size : Int) extends Component{
   val io = new Bundle {
@@ -25,5 +25,5 @@ case class CarryAdder(size : Int) extends Component{
 }
 
 object CarryAdderProject extends App {
-  SpinalVhdl(CarryAdder(4))
+  SpinalVhdl(CarryAdder(8))
 }
