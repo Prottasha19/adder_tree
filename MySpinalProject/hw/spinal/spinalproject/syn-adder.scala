@@ -31,3 +31,8 @@ object SimSynchronousExample {
     }
   }
 }
+
+object SimSynchronousExampleApp extends App {
+ SpinalVhdl(new SimSynchronousExample.Dut)
+ SpinalVerilog(new SimSynchronousExample.Dut)
+}

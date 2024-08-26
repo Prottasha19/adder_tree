@@ -30,3 +30,12 @@ object SimAsynchronousExample {
     }
   }
 }
+
+object SimAsynchronousExampleApp extends App {
+ SpinalVhdl(new SimAsynchronousExample.Dut)
+ SpinalVerilog(new SimAsynchronousExample.Dut)
+}
+
+
+
+

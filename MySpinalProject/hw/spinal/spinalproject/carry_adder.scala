@@ -26,4 +26,5 @@ case class CarryAdder(size : Int) extends Component{
 
 object CarryAdderProject extends App {
   SpinalVhdl(CarryAdder(8))
+  SpinalVerilog(CarryAdder(8))
 }
