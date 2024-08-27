@@ -146,13 +146,13 @@ public:
     }
 };
 
-class Wrapper_2393081839325340237;
-thread_local Wrapper_2393081839325340237 *simHandle2393081839325340237;
+class Wrapper_1773801472890830537;
+thread_local Wrapper_1773801472890830537 *simHandle1773801472890830537;
 
 #include <chrono>
 using namespace std::chrono;
 
-class Wrapper_2393081839325340237{
+class Wrapper_1773801472890830537{
 public:
     uint64_t time;
     high_resolution_clock::time_point lastFlushAt;
@@ -160,30 +160,29 @@ public:
     bool waveEnabled;
     //VerilatedContext* contextp; //Buggy in multi threaded spinalsim
     VDut *top;
-    ISignalAccess *signalAccess[6];
+    ISignalAccess *signalAccess[5];
     #ifdef TRACE
 	  VerilatedVcdC tfp;
 	  #endif
     string name;
     int32_t time_precision;
 
-    Wrapper_2393081839325340237(const char * name, const char * wavePath, int seed){
+    Wrapper_1773801472890830537(const char * name, const char * wavePath, int seed){
       //contextp = new VerilatedContext;
       Verilated::randReset(2);
       Verilated::randSeed(seed);
       top = new VDut();
 
-      simHandle2393081839325340237 = this;
+      simHandle1773801472890830537 = this;
       time = 0;
       timeCheck = 0;
       lastFlushAt = high_resolution_clock::now();
       waveEnabled = true;
       signalAccess[0] = new CDataSignalAccess( top->io_a );
       signalAccess[1] = new CDataSignalAccess( top->io_b );
-      signalAccess[2] = new CDataSignalAccess( top->io_c );
-      signalAccess[3] = new CDataSignalAccess( top->io_result );
-      signalAccess[4] = new CDataSignalAccess( top->clk );
-      signalAccess[5] = new CDataSignalAccess( top->reset );
+      signalAccess[2] = new CDataSignalAccess( top->io_result );
+      signalAccess[3] = new CDataSignalAccess( top->clk );
+      signalAccess[4] = new CDataSignalAccess( top->reset );
 
       #ifdef TRACE
       Verilated::traceEverOn(true);
@@ -194,8 +193,8 @@ public:
       this->time_precision = Verilated::timeprecision();
     }
 
-    virtual ~Wrapper_2393081839325340237(){
-      for(int idx = 0;idx < 6;idx++){
+    virtual ~Wrapper_1773801472890830537(){
+      for(int idx = 0;idx < 5;idx++){
           delete signalAccess[idx];
       }
 
@@ -220,7 +219,7 @@ public:
 };
 
 double sc_time_stamp () {
-  return simHandle2393081839325340237->time;
+  return simHandle1773801472890830537->time;
 }
 
 
@@ -247,7 +246,7 @@ extern "C" {
 #define API __attribute__((visibility("default")))
 
 
-JNIEXPORT Wrapper_2393081839325340237 * API JNICALL Java_wrapper_1verilator_VerilatorNative_newHandle_12393081839325340237
+JNIEXPORT Wrapper_1773801472890830537 * API JNICALL Java_wrapper_1verilator_VerilatorNative_newHandle_11773801472890830537
   (JNIEnv * env, jobject obj, jstring name, jstring wavePath, jint seedValue){
     #if defined(_WIN32) && !defined(__CYGWIN__)
     srand(seedValue);
@@ -256,25 +255,25 @@ JNIEXPORT Wrapper_2393081839325340237 * API JNICALL Java_wrapper_1verilator_Veri
     #endif
     const char* ch = env->GetStringUTFChars(name, 0);
     const char* wavePathCh = env->GetStringUTFChars(wavePath, 0);
-    Wrapper_2393081839325340237 *handle = new Wrapper_2393081839325340237(ch, wavePathCh, seedValue);
+    Wrapper_1773801472890830537 *handle = new Wrapper_1773801472890830537(ch, wavePathCh, seedValue);
     env->ReleaseStringUTFChars(name, ch);
     env->ReleaseStringUTFChars(wavePath, wavePathCh);
     return handle;
 }
 
-JNIEXPORT jboolean API JNICALL Java_wrapper_1verilator_VerilatorNative_eval_12393081839325340237
-  (JNIEnv *, jobject, Wrapper_2393081839325340237 *handle){
+JNIEXPORT jboolean API JNICALL Java_wrapper_1verilator_VerilatorNative_eval_11773801472890830537
+  (JNIEnv *, jobject, Wrapper_1773801472890830537 *handle){
    handle->top->eval();
    return Verilated::gotFinish();
 }
 
-JNIEXPORT jint API JNICALL Java_wrapper_1verilator_VerilatorNative_getTimePrecision_12393081839325340237
-  (JNIEnv *, jobject, Wrapper_2393081839325340237 *handle){
+JNIEXPORT jint API JNICALL Java_wrapper_1verilator_VerilatorNative_getTimePrecision_11773801472890830537
+  (JNIEnv *, jobject, Wrapper_1773801472890830537 *handle){
   return handle->time_precision;
 }
 
-JNIEXPORT void API JNICALL Java_wrapper_1verilator_VerilatorNative_sleep_12393081839325340237
-  (JNIEnv *, jobject, Wrapper_2393081839325340237 *handle, uint64_t cycles){
+JNIEXPORT void API JNICALL Java_wrapper_1verilator_VerilatorNative_sleep_11773801472890830537
+  (JNIEnv *, jobject, Wrapper_1773801472890830537 *handle, uint64_t cycles){
   #ifdef TRACE
   if(handle->waveEnabled) {
     handle->tfp.dump((vluint64_t)handle->time);
@@ -293,58 +292,58 @@ JNIEXPORT void API JNICALL Java_wrapper_1verilator_VerilatorNative_sleep_1239308
   handle->time += cycles;
 }
 
-JNIEXPORT jlong API JNICALL Java_wrapper_1verilator_VerilatorNative_getU64_12393081839325340237
-  (JNIEnv *, jobject, Wrapper_2393081839325340237 *handle, int id){
+JNIEXPORT jlong API JNICALL Java_wrapper_1verilator_VerilatorNative_getU64_11773801472890830537
+  (JNIEnv *, jobject, Wrapper_1773801472890830537 *handle, int id){
   return handle->signalAccess[id]->getU64();
 }
 
-JNIEXPORT jlong API JNICALL Java_wrapper_1verilator_VerilatorNative_getU64mem_12393081839325340237
-  (JNIEnv *, jobject, Wrapper_2393081839325340237 *handle, int id, uint64_t index){
+JNIEXPORT jlong API JNICALL Java_wrapper_1verilator_VerilatorNative_getU64mem_11773801472890830537
+  (JNIEnv *, jobject, Wrapper_1773801472890830537 *handle, int id, uint64_t index){
   return handle->signalAccess[id]->getU64_mem(index);
 }
 
-JNIEXPORT void API JNICALL Java_wrapper_1verilator_VerilatorNative_setU64_12393081839325340237
-  (JNIEnv *, jobject, Wrapper_2393081839325340237 *handle, int id, uint64_t value){
+JNIEXPORT void API JNICALL Java_wrapper_1verilator_VerilatorNative_setU64_11773801472890830537
+  (JNIEnv *, jobject, Wrapper_1773801472890830537 *handle, int id, uint64_t value){
   handle->signalAccess[id]->setU64(value);
 }
 
-JNIEXPORT void API JNICALL Java_wrapper_1verilator_VerilatorNative_setU64mem_12393081839325340237
-  (JNIEnv *, jobject, Wrapper_2393081839325340237 *handle, int id, uint64_t value, uint64_t index){
+JNIEXPORT void API JNICALL Java_wrapper_1verilator_VerilatorNative_setU64mem_11773801472890830537
+  (JNIEnv *, jobject, Wrapper_1773801472890830537 *handle, int id, uint64_t value, uint64_t index){
   handle->signalAccess[id]->setU64_mem(value, index);
 }
 
-JNIEXPORT void API JNICALL Java_wrapper_1verilator_VerilatorNative_deleteHandle_12393081839325340237
-  (JNIEnv *, jobject, Wrapper_2393081839325340237 * handle){
+JNIEXPORT void API JNICALL Java_wrapper_1verilator_VerilatorNative_deleteHandle_11773801472890830537
+  (JNIEnv *, jobject, Wrapper_1773801472890830537 * handle){
   delete handle;
 }
 
-JNIEXPORT void API JNICALL Java_wrapper_1verilator_VerilatorNative_getAU8_12393081839325340237
-  (JNIEnv * env, jobject obj, Wrapper_2393081839325340237 * handle, jint id, jbyteArray value){
+JNIEXPORT void API JNICALL Java_wrapper_1verilator_VerilatorNative_getAU8_11773801472890830537
+  (JNIEnv * env, jobject obj, Wrapper_1773801472890830537 * handle, jint id, jbyteArray value){
   handle->signalAccess[id]->getAU8(env, value);
 }
 
-JNIEXPORT void API JNICALL Java_wrapper_1verilator_VerilatorNative_getAU8mem_12393081839325340237
-  (JNIEnv * env, jobject obj, Wrapper_2393081839325340237 * handle, jint id, jbyteArray value, uint64_t index){
+JNIEXPORT void API JNICALL Java_wrapper_1verilator_VerilatorNative_getAU8mem_11773801472890830537
+  (JNIEnv * env, jobject obj, Wrapper_1773801472890830537 * handle, jint id, jbyteArray value, uint64_t index){
   handle->signalAccess[id]->getAU8_mem(env, value, index);
 }
 
-JNIEXPORT void API JNICALL Java_wrapper_1verilator_VerilatorNative_setAU8_12393081839325340237
-  (JNIEnv * env, jobject obj, Wrapper_2393081839325340237 * handle, jint id, jbyteArray value, jint length){
+JNIEXPORT void API JNICALL Java_wrapper_1verilator_VerilatorNative_setAU8_11773801472890830537
+  (JNIEnv * env, jobject obj, Wrapper_1773801472890830537 * handle, jint id, jbyteArray value, jint length){
   handle->signalAccess[id]->setAU8(env, value, length);
 }
 
-JNIEXPORT void API JNICALL Java_wrapper_1verilator_VerilatorNative_setAU8mem_12393081839325340237
-  (JNIEnv * env, jobject obj, Wrapper_2393081839325340237 * handle, jint id, jbyteArray value, jint length, uint64_t index){
+JNIEXPORT void API JNICALL Java_wrapper_1verilator_VerilatorNative_setAU8mem_11773801472890830537
+  (JNIEnv * env, jobject obj, Wrapper_1773801472890830537 * handle, jint id, jbyteArray value, jint length, uint64_t index){
   handle->signalAccess[id]->setAU8_mem(env, value, length, index);
 }
 
-JNIEXPORT void API JNICALL Java_wrapper_1verilator_VerilatorNative_enableWave_12393081839325340237
-  (JNIEnv *, jobject, Wrapper_2393081839325340237 * handle){
+JNIEXPORT void API JNICALL Java_wrapper_1verilator_VerilatorNative_enableWave_11773801472890830537
+  (JNIEnv *, jobject, Wrapper_1773801472890830537 * handle){
   handle->waveEnabled = true;
 }
 
-JNIEXPORT void API JNICALL Java_wrapper_1verilator_VerilatorNative_disableWave_12393081839325340237
-  (JNIEnv *, jobject, Wrapper_2393081839325340237 * handle){
+JNIEXPORT void API JNICALL Java_wrapper_1verilator_VerilatorNative_disableWave_11773801472890830537
+  (JNIEnv *, jobject, Wrapper_1773801472890830537 * handle){
   handle->waveEnabled = false;
 }
 

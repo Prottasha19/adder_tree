@@ -10,12 +10,11 @@
 
 VDut::VDut(VerilatedContext* _vcontextp__, const char* _vcname__)
     : vlSymsp{new VDut__Syms(_vcontextp__, _vcname__, this)}
-    , clk{vlSymsp->TOP.clk}
-    , reset{vlSymsp->TOP.reset}
     , io_a{vlSymsp->TOP.io_a}
     , io_b{vlSymsp->TOP.io_b}
-    , io_c{vlSymsp->TOP.io_c}
     , io_result{vlSymsp->TOP.io_result}
+    , clk{vlSymsp->TOP.clk}
+    , reset{vlSymsp->TOP.reset}
     , rootp{&(vlSymsp->TOP)}
 {
 }
