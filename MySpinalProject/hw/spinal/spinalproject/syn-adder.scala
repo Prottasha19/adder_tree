@@ -17,7 +17,7 @@ object SimSynchronousExample {
 
   def main(args: Array[String]): Unit = {
     SimConfig.withWave.compile(new Dut).doSim{ dut =>
-      dut.clockDomain.forkStimulus(period = 10)
+      dut.clockDomain.forkStimulus(period = 5)
 
       var resultModel = 0
       for(idx <- 0 until 100){
